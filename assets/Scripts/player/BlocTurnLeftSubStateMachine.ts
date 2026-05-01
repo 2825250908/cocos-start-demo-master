@@ -1,12 +1,12 @@
-import DirectionSubStateMachine from '../../Base/DirectionSubStateMachine'
 import State from '../../Base/State'
 import { DIRECTION_ENUM } from '../../Enums'
-import { PlayerStateMachine } from './PlayerStateMachine'
 import { AnimationClip } from 'cc'
+import { PlayerStateMachine } from './PlayerStateMachine'
+import DirectionSubStateMachine from '../../Base/DirectionSubStateMachine'
 
-const BaseURL = 'texture/player/turnright'
+const BaseURL = 'texture/player/blockturnleft'
 
-export default class TurnRightSubStateMachine extends DirectionSubStateMachine {
+export default class BlocTurnLeftSubStateMachine extends DirectionSubStateMachine {
   constructor(fsm: PlayerStateMachine) {
     super(fsm)
     this.stateMachines.set(DIRECTION_ENUM.TOP, new State(fsm, `${BaseURL}/top`, AnimationClip.WrapMode.Normal))

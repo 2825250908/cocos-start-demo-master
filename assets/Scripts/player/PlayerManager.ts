@@ -65,6 +65,16 @@ const TURN_DIRECTIONS = {
   },
 }
 
+// 撞墙动画映射表
+const BLOCK_DIRECTIONS = {
+  [CONTROLLER_ENUM.TOP]: ENTITY_STATE_ENUM.BLOCKFRONT,
+  [CONTROLLER_ENUM.BOTTOM]: ENTITY_STATE_ENUM.BLOCKBACK,
+  [CONTROLLER_ENUM.LEFT]: ENTITY_STATE_ENUM.BLOCKLEFT,
+  [CONTROLLER_ENUM.RIGHT]: ENTITY_STATE_ENUM.BLOCKRIGHT,
+  [CONTROLLER_ENUM.TURNLEFT]: ENTITY_STATE_ENUM.BLOCKTURNLEFT,
+  [CONTROLLER_ENUM.TURNRIGHT]: ENTITY_STATE_ENUM.BLCOKTURNRIGHT,
+}
+
 /**
  * 玩家管理器类
  * 负责处理玩家角色的初始化、动画播放等功能
@@ -203,6 +213,7 @@ export class PlayerManager extends EntityManager {
     const playerTile = tileInfo[playerNextX][playerNextY]
     const weaponTile = tileInfo[weaponNextX][weaponNextY]
     if (!playerTile.movable || !weaponTile.turnable) {
+      this.state = BLOCK_DIRECTIONS[inputDirection]
       return true
     }
     return false
@@ -221,6 +232,7 @@ export class PlayerManager extends EntityManager {
       return tileInfo[item.x + x][item.y + y]
     })
     if (!TurnTile[0].turnable || !TurnTile[1].turnable) {
+      this.state = BLOCK_DIRECTIONS[inputDirection]
       return true
     }
     return false
