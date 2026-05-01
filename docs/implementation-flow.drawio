@@ -1,0 +1,138 @@
+<mxfile host="app.diagrams.net" modified="2026-04-18T07:05:00.000Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36" etag="123456789" version="13.6.2">
+  <diagram id="12345" name="实现流程">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- 开始节点 -->
+        <mxCell id="2" value="引擎启动" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4CAF50;strokeColor=#388E3C;" vertex="1" parent="1">
+          <mxGeometry x="400" y="20" width="120" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- 加载场景 -->
+        <mxCell id="3" value="加载 Battle.scene" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2196F3;strokeColor=#1976D2;" vertex="1" parent="1">
+          <mxGeometry x="400" y="100" width="120" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- 初始化 Canvas -->
+        <mxCell id="4" value="初始化 Canvas" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2196F3;strokeColor=#1976D2;" vertex="1" parent="1">
+          <mxGeometry x="400" y="180" width="120" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- BattleManager 初始化 -->
+        <mxCell id="5" value="BattleManager 初始化" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#9C27B0;strokeColor=#7B1FA2;" vertex="1" parent="1">
+          <mxGeometry x="400" y="260" width="160" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- onLoad 方法 -->
+        <mxCell id="6" value="onLoad() 注册事件" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FF9800;strokeColor=#F57C00;" vertex="1" parent="1">
+          <mxGeometry x="200" y="340" width="160" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- start 方法 -->
+        <mxCell id="7" value="start() 生成舞台" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FF9800;strokeColor=#F57C00;" vertex="1" parent="1">
+          <mxGeometry x="600" y="340" width="160" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- 单例初始化 -->
+        <mxCell id="8" value="单例初始化" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FF5722;strokeColor=#E64A19;" vertex="1" parent="1">
+          <mxGeometry x="400" y="420" width="160" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- DataManager 初始化 -->
+        <mxCell id="9" value="DataManager.Instance" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFC107;strokeColor=#FFA000;" vertex="1" parent="1">
+          <mxGeometry x="200" y="500" width="160" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- EventManager 初始化 -->
+        <mxCell id="10" value="EventManager.Instance" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFC107;strokeColor=#FFA000;" vertex="1" parent="1">
+          <mxGeometry x="600" y="500" width="160" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- 关卡初始化 -->
+        <mxCell id="11" value="初始化关卡" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3F51B5;strokeColor=#303F9F;" vertex="1" parent="1">
+          <mxGeometry x="400" y="580" width="160" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- 生成地图 -->
+        <mxCell id="12" value="生成瓦片地图" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#00BCD4;strokeColor=#0097A7;" vertex="1" parent="1">
+          <mxGeometry x="200" y="660" width="160" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- 生成玩家 -->
+        <mxCell id="13" value="生成玩家角色" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#00BCD4;strokeColor=#0097A7;" vertex="1" parent="1">
+          <mxGeometry x="600" y="660" width="160" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- 游戏循环 -->
+        <mxCell id="14" value="进入游戏循环" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4CAF50;strokeColor=#388E3C;" vertex="1" parent="1">
+          <mxGeometry x="400" y="740" width="160" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- 事件触发 -->
+        <mxCell id="15" value="事件触发" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E91E63;strokeColor=#C2185B;" vertex="1" parent="1">
+          <mxGeometry x="200" y="820" width="160" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- 关卡切换 -->
+        <mxCell id="16" value="关卡切换" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E91E63;strokeColor=#C2185B;" vertex="1" parent="1">
+          <mxGeometry x="600" y="820" width="160" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- 连接箭头 -->
+        <mxCell id="17" value="" style="endArrow=block;html=1;" edge="1" parent="1" source="2" target="3">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="18" value="" style="endArrow=block;html=1;" edge="1" parent="1" source="3" target="4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="19" value="" style="endArrow=block;html=1;" edge="1" parent="1" source="4" target="5">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="20" value="" style="endArrow=block;html=1;" edge="1" parent="1" source="5" target="6">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="21" value="" style="endArrow=block;html=1;" edge="1" parent="1" source="5" target="7">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="22" value="" style="endArrow=block;html=1;" edge="1" parent="1" source="7" target="8">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="23" value="" style="endArrow=block;html=1;" edge="1" parent="1" source="8" target="9">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="24" value="" style="endArrow=block;html=1;" edge="1" parent="1" source="8" target="10">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="25" value="" style="endArrow=block;html=1;" edge="1" parent="1" source="9" target="11">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="26" value="" style="endArrow=block;html=1;" edge="1" parent="1" source="10" target="11">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="27" value="" style="endArrow=block;html=1;" edge="1" parent="1" source="11" target="12">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="28" value="" style="endArrow=block;html=1;" edge="1" parent="1" source="11" target="13">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="29" value="" style="endArrow=block;html=1;" edge="1" parent="1" source="12" target="14">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="30" value="" style="endArrow=block;html=1;" edge="1" parent="1" source="13" target="14">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="31" value="" style="endArrow=block;html=1;" edge="1" parent="1" source="14" target="15">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="32" value="" style="endArrow=block;html=1;" edge="1" parent="1" source="14" target="16">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="33" value="" style="endArrow=block;html=1;" edge="1" parent="1" source="16" target="11">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

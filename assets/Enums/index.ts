@@ -1,0 +1,66 @@
+export enum TILE_TYPE_ENUM {
+  WALL_ROW = 'WALL_ROW',
+  WALL_COLUMN = 'WALL_COLUMN',
+  WALL_RIGHT_BOTTOM = 'WALL_RIGHT_BOTTOM',
+  WALL_RIGHT_TOP = 'WALL_RIGHT_TOP',
+  WALL_LEFT_TOP = 'WALL_LEFT_TOP', //左上角墙壁
+  WALL_LEFT_BOTTOM = 'WALL_LEFT_BOTTOM',
+  CLIFF_CENTER = 'CLIFF_CENTER',
+  CLIFF_LEFT = 'CLIFF_LEFT',
+  CLIFF_RIGHT = 'CLIFF_RIGHT',
+  FLOOR = 'FLOOR',
+}
+
+export enum EVENT_ENUM {
+  NEXT_LEVEL = 'NEXT_LEVEL', // 下一关
+  LAST_LEVEL = 'LAST_LEVEL', // 上一关
+  BEXT_LEVEL = 'BEXT_LEVEL', // 退出游戏
+  PLAYER_CTRL = 'PLAYER_CTRL', // 玩家控制
+}
+
+export enum CONTROLLER_ENUM {
+  TOP = 'TOP',
+  BOTTOM = 'BOTTOM',
+  LEFT = 'LEFT',
+  RIGHT = 'RIGHT',
+  TURNLEFT = 'TURNLEFT',
+  TURNRIGHT = 'TURNRIGHT',
+}
+// 状态机类型枚举
+export enum FSM_PARAMS_TYPE_ENUM {
+  TRIGGER = 'TRIGGER', // 触发器
+  NUMBER = 'NUMBER', // 当前方向
+}
+
+// 状态机参数枚举
+export enum PARAMS_NAME_ENUM {
+  IDLE = 'IDLE', // 闲置状态
+  TURNLEFT = 'TURNLEFT', // 左转状态
+  TURNRIGHT = 'TURNRIGHT', // 右转状态
+  DIRECTION = 'DIRECTION', // 方向
+}
+
+// 方向参数枚举
+export enum DIRECTION_ENUM {
+  TOP = 'TOP',
+  BOTTOM = 'BOTTOM',
+  RIGHT = 'RIGHT',
+  LEFT = 'LEFT',
+}
+
+export enum ENTITY_STATE_ENUM {
+  IDLE = 'IDLE',
+  TURNLEFT = 'TURNLEFT',
+  TURNRIGHT = 'TURNRIGHT',
+}
+
+export enum DIRECTION_ORDER_ENUM {
+  TOP = 0,
+  BOTTOM = 1,
+  RIGHT = 2,
+  LEFT = 3,
+}
+
+export enum ENTITY_TYPE_ENUM {
+  PALYER = 'PLAYER',
+}
