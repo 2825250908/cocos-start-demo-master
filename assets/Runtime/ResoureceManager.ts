@@ -13,7 +13,10 @@ export class ResoureceManager extends Singleton {
           reject(err)
           return
         }
-        resolve(assets)
+        const sortedAssets = assets.sort((a, b) => {
+          return a.name.localeCompare(b.name)
+        })
+        resolve(sortedAssets)
       })
     })
   }

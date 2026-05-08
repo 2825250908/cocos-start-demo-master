@@ -7,6 +7,7 @@ import Levels, { Ilevel } from '../../Levels'
 import { DataManager } from '../../Runtime/DataManager'
 import { EventManager } from '../../Runtime/EventManager'
 import { TILE_HEIGHT, TILE_WIDTH } from '../Tile/TileManager'
+import { WoodenSkeletonManager } from '../WoodenSkeleton/WoodenSkeletonManager'
 const { ccclass, property } = _decorator
 
 @ccclass('BattleManager')
@@ -35,6 +36,8 @@ export class BattleManager extends Component {
       this.generateTileMap()
       // 生成角色
       this.generatePlayer()
+      // 生成怪物
+      this.generateEnemies()
     }
   }
   // 下一关
@@ -71,6 +74,13 @@ export class BattleManager extends Component {
     // 3.给 player 节点添加 Sprite 组件
     const playerManager = player.addComponent(PlayerManager)
     playerManager.init()
+  }
+  // 生成怪物角色
+  generateEnemies() {
+    const woodenskeleton = createUINode('woodenskeleton')
+    woodenskeleton.setParent(this.stage)
+    const woodenSkeletonManager = woodenskeleton.addComponent(WoodenSkeletonManager)
+    woodenSkeletonManager.init()
   }
   // 生成瓦片地图
   generateTileMap() {
