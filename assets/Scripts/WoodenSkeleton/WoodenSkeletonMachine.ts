@@ -2,6 +2,7 @@ import { _decorator, Animation } from 'cc'
 import { FSM_PARAMS_TYPE_ENUM, PARAMS_NAME_ENUM } from '../../Enums'
 import { StateMachine } from '../../Base/StateMachine'
 import IdleSubStateMachine from './IdleSubStateMachine'
+import AttackSubStateMachine from './AttackSubStateMachine'
 const { ccclass, property } = _decorator
 
 type ParamsValueTYPE = Boolean | number
@@ -46,11 +47,13 @@ export class WoodenSkeletonMachine extends StateMachine {
   initParams() {
     this.params.set(PARAMS_NAME_ENUM.IDLE, getInitParamsTrigger()) // 添加闲置动画
     this.params.set(PARAMS_NAME_ENUM.DIRECTION, getInitParamsNumber()) // 添加方向状态列表
+    this.params.set(PARAMS_NAME_ENUM.ATTACK, getInitParamsTrigger()) // 添加攻击状态
   }
   // 状态机列表初始化
   initStateMachine() {
     // 初始化闲置动画
     this.stateMachines.set(PARAMS_NAME_ENUM.IDLE, new IdleSubStateMachine(this))
+    this.stateMachines.set(PARAMS_NAME_ENUM.ATTACK, new AttackSubStateMachine(this))
   }
   // 动画结束时候的回调
   initAnimationEvent() {
@@ -67,8 +70,11 @@ export class WoodenSkeletonMachine extends StateMachine {
   run() {
     switch (this.currentState) {
       case this.stateMachines.get(PARAMS_NAME_ENUM.IDLE):
+      case this.stateMachines.get(PARAMS_NAME_ENUM.ATTACK):
         if (this.params.get(PARAMS_NAME_ENUM.IDLE).value) {
           this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.IDLE)
+        } else if (this.params.get(PARAMS_NAME_ENUM.ATTACK).value) {
+          this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.ATTACK)
         } else {
           this.currentState = this.currentState
         }

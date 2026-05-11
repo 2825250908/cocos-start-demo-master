@@ -16,6 +16,9 @@ export enum EVENT_ENUM {
   LAST_LEVEL = 'LAST_LEVEL', // 上一关
   BEXT_LEVEL = 'BEXT_LEVEL', // 退出游戏
   PLAYER_CTRL = 'PLAYER_CTRL', // 玩家控制
+  PLAYER_MOVE_END = 'PLAYER_MOVE_END', // 玩家移动结束
+  PLAYER_BORN = 'PLAYER_BORN', // 玩家出生
+  PLAYER_HIT = 'PLAYER_HIT', // 玩家被击中
 }
 
 export enum CONTROLLER_ENUM {
@@ -44,6 +47,7 @@ export enum PARAMS_NAME_ENUM {
   BLOCKFRONT = 'BLOCKFRONT', // 前进撞墙动画
   BLOCKTURNLEFT = 'BLOCKTURNLEFT', // 左转撞墙动画
   BLCOKTURNRIGHT = 'BLCOKTURNRIGHT', //右转撞墙动画
+  ATTACK = 'ATTACK', // 攻击状态
 }
 
 // 方向参数枚举
@@ -64,6 +68,7 @@ export enum ENTITY_STATE_ENUM {
   BLOCKFRONT = 'BLOCKFRONT', // 前进撞墙动画
   BLOCKTURNLEFT = 'BLOCKTURNLEFT', // 左转撞墙动画
   BLCOKTURNRIGHT = 'BLCOKTURNRIGHT', //右转撞墙动画
+  ATTACK = 'ATTACK', // 攻击动画
 }
 
 export enum DIRECTION_ORDER_ENUM {

@@ -25,7 +25,7 @@ export class BattleManager extends Component {
     EventManager.Instance.off(EVENT_ENUM.NEXT_LEVEL, this.nextLevel)
   }
   // 初始化地图总数据
-  initLevel() {
+  async initLevel() {
     const level = Levels[`Level${DataManager.Instance.levelindex}`]
     if (level) {
       this.Level = level
@@ -34,10 +34,10 @@ export class BattleManager extends Component {
       DataManager.Instance.mapRowCount = this.Level.mapInfo.length || 0 // y轴信息
       // 生成瓦片地图
       this.generateTileMap()
-      // 生成角色
-      this.generatePlayer()
       // 生成怪物
-      this.generateEnemies()
+      await this.generateEnemies()
+      // 生成角色
+      await this.generatePlayer()
     }
   }
   // 下一关
@@ -66,21 +66,24 @@ export class BattleManager extends Component {
     this.stage.setParent(this.node)
   }
   // 生成游戏角色
-  generatePlayer() {
+  async generatePlayer() {
     // 1.创建一个名为 "player" 角色的节点
     const player = createUINode('player')
     // 2.将 player 节点添加为 stage 的子节点
     player.setParent(this.stage)
     // 3.给 player 节点添加 Sprite 组件
     const playerManager = player.addComponent(PlayerManager)
-    playerManager.init()
+    await playerManager.init()
+    DataManager.Instance.player = playerManager
+    EventManager.Instance.emit(EVENT_ENUM.PLAYER_BORN)
   }
   // 生成怪物角色
-  generateEnemies() {
+  async generateEnemies() {
     const woodenskeleton = createUINode('woodenskeleton')
     woodenskeleton.setParent(this.stage)
     const woodenSkeletonManager = woodenskeleton.addComponent(WoodenSkeletonManager)
-    woodenSkeletonManager.init()
+    await woodenSkeletonManager.init()
+    DataManager.Instance.enemies.push(woodenSkeletonManager)
   }
   // 生成瓦片地图
   generateTileMap() {

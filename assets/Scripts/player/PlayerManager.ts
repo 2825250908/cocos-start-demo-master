@@ -90,6 +90,7 @@ export class PlayerManager extends EntityManager {
    * 4. 创建并播放循环动画
    * @returns {Promise<void>} 无返回值
    */
+  isMoving: boolean = false
   targetX: number = 0 // 目标x位置
   targetY: number = 0 // 当前y位置
   // 行动速率
@@ -131,15 +132,19 @@ export class PlayerManager extends EntityManager {
   move(inputDirection: CONTROLLER_ENUM) {
     if (inputDirection === CONTROLLER_ENUM.TOP) {
       this.targetY -= 1
+      this.isMoving = true
     }
     if (inputDirection === CONTROLLER_ENUM.BOTTOM) {
       this.targetY += 1
+      this.isMoving = true
     }
     if (inputDirection === CONTROLLER_ENUM.LEFT) {
       this.targetX -= 1
+      this.isMoving = true
     }
     if (inputDirection === CONTROLLER_ENUM.RIGHT) {
       this.targetX += 1
+      this.isMoving = true
     }
     if (inputDirection == CONTROLLER_ENUM.TURNLEFT) {
       if (this.direction === DIRECTION_ENUM.TOP) {
@@ -152,6 +157,7 @@ export class PlayerManager extends EntityManager {
         this.direction = DIRECTION_ENUM.TOP
       }
       this.state = ENTITY_STATE_ENUM.TURNLEFT
+      EventManager.Instance.emit(EVENT_ENUM.PLAYER_MOVE_END)
     }
     if (inputDirection == CONTROLLER_ENUM.TURNRIGHT) {
       if (this.direction === DIRECTION_ENUM.TOP) {
@@ -164,6 +170,7 @@ export class PlayerManager extends EntityManager {
         this.direction = DIRECTION_ENUM.BOTTOM
       }
       this.state = ENTITY_STATE_ENUM.TURNRIGHT
+      EventManager.Instance.emit(EVENT_ENUM.PLAYER_MOVE_END)
     }
   }
   // 更新实际坐标
@@ -178,9 +185,11 @@ export class PlayerManager extends EntityManager {
     } else if (this.targetY > this.y) {
       this.y += this.speed
     }
-    if (Math.abs(this.targetX - this.x) <= 0.1 && Math.abs(this.targetY - this.y) <= 0.1) {
+    if (Math.abs(this.targetX - this.x) <= 0.1 && Math.abs(this.targetY - this.y) <= 0.1 && this.isMoving) {
       this.x = this.targetX
       this.y = this.targetY
+      EventManager.Instance.emit(EVENT_ENUM.PLAYER_MOVE_END)
+      this.isMoving = false
     }
   }
   // 判断下一步的坐标能否移动（优化后的版本）
