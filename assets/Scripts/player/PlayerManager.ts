@@ -90,7 +90,8 @@ export class PlayerManager extends EntityManager {
    * 4. 创建并播放循环动画
    * @returns {Promise<void>} 无返回值
    */
-  isMoving: boolean = false
+  isMoving: boolean = false // 是否正在移动
+
   targetX: number = 0 // 目标x位置
   targetY: number = 0 // 当前y位置
   // 行动速率
@@ -121,8 +122,21 @@ export class PlayerManager extends EntityManager {
     this.targetY = 8
     // 监听玩家控制器事件
     EventManager.Instance.on(EVENT_ENUM.PLAYER_CTRL, this.inputHandle, this)
+    EventManager.Instance.on(EVENT_ENUM.ATTACK_PLAYER, this.onDead, this)
+    // 监听玩家死亡事件
   }
   inputHandle(inputDirection: CONTROLLER_ENUM) {
+    // 如果正在移动，直接返回
+    if (this.isMoving) {
+      return
+    }
+    // 如果是死亡状态，不允许移动
+    if (this.state === ENTITY_STATE_ENUM.DEATH || this.state === ENTITY_STATE_ENUM.AIRDEATH) {
+      return
+    }
+    if (this.willAttack(inputDirection)) {
+      return
+    }
     if (this.willBlock(inputDirection)) {
       return
     }
@@ -203,6 +217,29 @@ export class PlayerManager extends EntityManager {
     return this.checkMoveCollision(inputDirection, direction, x, y, tileInfo)
   }
 
+  // 判断距离是否能攻击
+  willAttack(inputDirection: CONTROLLER_ENUM) {
+    if (inputDirection === CONTROLLER_ENUM.TURNLEFT || inputDirection === CONTROLLER_ENUM.TURNRIGHT) {
+      return false
+    }
+    const weaponOffset = DIRECTION_OFFSETS[this.direction]
+    const playerOffset = DIRECTION_OFFSETS[inputDirection]
+    // // 计算下一步位置
+    const playerNextX = this.x + playerOffset.x // 人物移动的下一个x轴
+    const playerNextY = this.y + playerOffset.y // 人物移动的下一个y轴
+    const weaponNextX = playerNextX + weaponOffset.x //人物武器的下一个x轴
+    const weaponNextY = playerNextY + weaponOffset.y // 人物武器的下一个y轴
+    const enemies = DataManager.Instance.enemies
+    for (let index = 0; index < enemies.length; index++) {
+      const { x: enemieX, y: enemieY } = enemies[index]
+      if (enemieX === weaponNextX && weaponNextY === enemieY) {
+        this.state = ENTITY_STATE_ENUM.ATTACK
+        return true
+      }
+    }
+    return false
+  }
+
   // 检查移动碰撞
   private checkMoveCollision(
     inputDirection: CONTROLLER_ENUM, // 要执行的动作
@@ -245,5 +282,9 @@ export class PlayerManager extends EntityManager {
       return true
     }
     return false
+  }
+  // 被怪物击中死亡
+  onDead(type: ENTITY_STATE_ENUM) {
+    this.state = type
   }
 }

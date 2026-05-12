@@ -29,7 +29,7 @@ export class WoodenSkeletonManager extends EntityManager {
     await this.fsm.init()
     super.init({
       x: 2,
-      y: 6,
+      y: 4,
       type: ENTITY_TYPE_ENUM.PALYER,
       direction: DIRECTION_ENUM.TOP,
       state: ENTITY_STATE_ENUM.IDLE,
@@ -66,6 +66,7 @@ export class WoodenSkeletonManager extends EntityManager {
     const dy = playerY - this.y
     if ((dx === 1 && dy === 0) || (dx === -1 && dy === 0) || (dx === 0 && dy === 1) || (dx === 0 && dy === -1)) {
       this.state = ENTITY_STATE_ENUM.ATTACK
+      EventManager.Instance.emit(EVENT_ENUM.ATTACK_PLAYER, ENTITY_STATE_ENUM.DEATH)
     } else {
       this.state = ENTITY_STATE_ENUM.IDLE
     }

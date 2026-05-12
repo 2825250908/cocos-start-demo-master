@@ -10,6 +10,8 @@ import BlockLeftSubStateMachine from './BlockLeftSubStateMachine'
 import BlockRightSubStateMachine from './BlockRightSubStateMachine'
 import BlockTurnRightSubStateMachine from './BlockTurnRightSubStateMachine'
 import BlocTurnLeftSubStateMachine from './BlocTurnLeftSubStateMachine'
+import DeathSubStateMachine from './DeathSubStateMachine'
+import AttackSubStateMachine from './AttackSubStateMachine'
 const { ccclass, property } = _decorator
 
 type ParamsValueTYPE = Boolean | number
@@ -61,6 +63,8 @@ export class PlayerStateMachine extends StateMachine {
     this.params.set(PARAMS_NAME_ENUM.BLOCKRIGHT, getInitParamsTrigger()) // 添加右移撞墙动画
     this.params.set(PARAMS_NAME_ENUM.BLCOKTURNRIGHT, getInitParamsTrigger()) // 添加右转撞墙动画
     this.params.set(PARAMS_NAME_ENUM.BLOCKTURNLEFT, getInitParamsTrigger()) // 添加左转撞墙动画
+    this.params.set(PARAMS_NAME_ENUM.DEATH, getInitParamsTrigger()) // 添加受击参数
+    this.params.set(PARAMS_NAME_ENUM.ATTACK, getInitParamsTrigger()) // 添加攻击参数
     this.params.set(PARAMS_NAME_ENUM.DIRECTION, getInitParamsNumber()) // 添加方向状态列表
   }
   // 状态机列表初始化
@@ -83,13 +87,17 @@ export class PlayerStateMachine extends StateMachine {
     this.stateMachines.set(PARAMS_NAME_ENUM.BLCOKTURNRIGHT, new BlockTurnRightSubStateMachine(this))
     // 初始化左转撞墙动画
     this.stateMachines.set(PARAMS_NAME_ENUM.BLOCKTURNLEFT, new BlocTurnLeftSubStateMachine(this))
+    // 初始化死亡状态动画
+    this.stateMachines.set(PARAMS_NAME_ENUM.DEATH, new DeathSubStateMachine(this))
+    // 初始化攻击状态动画
+    this.stateMachines.set(PARAMS_NAME_ENUM.ATTACK, new AttackSubStateMachine(this))
   }
   // 动画结束时候的回调
   initAnimationEvent() {
     this.animationComponent.on(Animation.EventType.FINISHED, () => {
       const name = this.animationComponent.defaultClip.name
-      const whitelList = ['idle']
-      if (whitelList.some(item => !name.includes(item))) {
+      const whitelList = ['idle', 'death']
+      if (!whitelList.some(item => name.includes(item))) {
         this.setParams(PARAMS_NAME_ENUM.IDLE, true)
       }
     })
@@ -107,6 +115,8 @@ export class PlayerStateMachine extends StateMachine {
       case this.stateMachines.get(PARAMS_NAME_ENUM.BLOCKRIGHT):
       case this.stateMachines.get(PARAMS_NAME_ENUM.BLCOKTURNRIGHT):
       case this.stateMachines.get(PARAMS_NAME_ENUM.BLOCKTURNLEFT):
+      case this.stateMachines.get(PARAMS_NAME_ENUM.ATTACK):
+      case this.stateMachines.get(PARAMS_NAME_ENUM.DEATH):
         if (this.params.get(PARAMS_NAME_ENUM.TURNLEFT).value) {
           this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.TURNLEFT)
         } else if (this.params.get(PARAMS_NAME_ENUM.TURNRIGHT).value) {
@@ -123,6 +133,10 @@ export class PlayerStateMachine extends StateMachine {
           this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.BLCOKTURNRIGHT)
         } else if (this.params.get(PARAMS_NAME_ENUM.BLOCKTURNLEFT).value) {
           this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.BLOCKTURNLEFT)
+        } else if (this.params.get(PARAMS_NAME_ENUM.DEATH).value) {
+          this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.DEATH)
+        } else if (this.params.get(PARAMS_NAME_ENUM.ATTACK).value) {
+          this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.ATTACK)
         } else if (this.params.get(PARAMS_NAME_ENUM.IDLE).value) {
           this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.IDLE)
         } else {
