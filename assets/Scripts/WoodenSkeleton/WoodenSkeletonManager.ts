@@ -33,15 +33,26 @@ export class WoodenSkeletonManager extends EntityManager {
       type: ENTITY_TYPE_ENUM.PALYER,
       direction: DIRECTION_ENUM.TOP,
       state: ENTITY_STATE_ENUM.IDLE,
+      id: this.node.uuid,
     })
     // 监听玩家角色初始化
     EventManager.Instance.on(EVENT_ENUM.PLAYER_BORN, this.onChangeDIrect, this)
     // 监听玩家移动结束事件
     EventManager.Instance.on(EVENT_ENUM.PLAYER_MOVE_END, this.onChangeDIrect, this)
     EventManager.Instance.on(EVENT_ENUM.PLAYER_MOVE_END, this.onAttack, this)
+    EventManager.Instance.on(EVENT_ENUM.ATTACK_ENEMY, this.onDead, this)
+  }
+  onDestroy(): void {
+    EventManager.Instance.off(EVENT_ENUM.PLAYER_BORN, this.onChangeDIrect)
+    EventManager.Instance.off(EVENT_ENUM.PLAYER_MOVE_END, this.onChangeDIrect)
+    EventManager.Instance.off(EVENT_ENUM.PLAYER_MOVE_END, this.onAttack)
+    EventManager.Instance.off(EVENT_ENUM.ATTACK_ENEMY, this.onDead)
   }
   // 监听玩家坐标修改怪物方向
   onChangeDIrect() {
+    if (this.state === ENTITY_STATE_ENUM.DEATH) {
+      return
+    }
     const { x: playerX, y: playerY } = DataManager.Instance.player
     const dx = playerX - this.x
     const dy = playerY - this.y
@@ -61,6 +72,9 @@ export class WoodenSkeletonManager extends EntityManager {
   }
   // 根据玩家坐标判断怪物是否攻击
   onAttack() {
+    if (this.state === ENTITY_STATE_ENUM.DEATH) {
+      return
+    }
     const { x: playerX, y: playerY } = DataManager.Instance.player
     const dx = playerX - this.x
     const dy = playerY - this.y
@@ -69,6 +83,14 @@ export class WoodenSkeletonManager extends EntityManager {
       EventManager.Instance.emit(EVENT_ENUM.ATTACK_PLAYER, ENTITY_STATE_ENUM.DEATH)
     } else {
       this.state = ENTITY_STATE_ENUM.IDLE
+    }
+  }
+  onDead(enemieId: string) {
+    if (this.state === ENTITY_STATE_ENUM.DEATH) {
+      return
+    }
+    if (enemieId === this.id) {
+      this.state = ENTITY_STATE_ENUM.DEATH
     }
   }
 }

@@ -1,20 +1,10 @@
-import { _decorator, Component, animation, Sprite, AnimationClip, UITransform, Animation, SpriteFrame } from 'cc'
-import {
-  CONTROLLER_ENUM,
-  DIRECTION_ENUM,
-  DIRECTION_ORDER_ENUM,
-  ENTITY_STATE_ENUM,
-  ENTITY_TYPE_ENUM,
-  EVENT_ENUM,
-  PARAMS_NAME_ENUM,
-} from '../../Enums'
-import { TILE_HEIGHT, TILE_WIDTH, TileManager } from '../Tile/TileManager'
-import { ResoureceManager } from '../../Runtime/ResoureceManager'
+import { _decorator } from 'cc'
+import { CONTROLLER_ENUM, DIRECTION_ENUM, ENTITY_STATE_ENUM, ENTITY_TYPE_ENUM, EVENT_ENUM } from '../../Enums'
+import { TileManager } from '../Tile/TileManager'
 import { EventManager } from '../../Runtime/EventManager'
 import { PlayerStateMachine } from './PlayerStateMachine'
 import { EntityManager } from '../../Base/EntityManager'
 import { DataManager } from '../../Runtime/DataManager'
-import { ITile } from '../../Levels'
 const { ccclass, property } = _decorator
 
 // 方向偏移量配置表
@@ -104,6 +94,7 @@ export class PlayerManager extends EntityManager {
   }
   onDestroy(): void {
     EventManager.Instance.off(EVENT_ENUM.PLAYER_CTRL, this.move)
+    EventManager.Instance.off(EVENT_ENUM.ATTACK_PLAYER, this.move)
   }
 
   async init() {
@@ -117,6 +108,7 @@ export class PlayerManager extends EntityManager {
       type: ENTITY_TYPE_ENUM.PALYER,
       direction: DIRECTION_ENUM.TOP,
       state: ENTITY_STATE_ENUM.IDLE,
+      id: 'player',
     })
     this.targetX = 2
     this.targetY = 8
@@ -130,11 +122,17 @@ export class PlayerManager extends EntityManager {
     if (this.isMoving) {
       return
     }
-    // 如果是死亡状态，不允许移动
-    if (this.state === ENTITY_STATE_ENUM.DEATH || this.state === ENTITY_STATE_ENUM.AIRDEATH) {
+    // 如果是死亡状态,不允许移动
+    if (
+      this.state === ENTITY_STATE_ENUM.DEATH ||
+      this.state === ENTITY_STATE_ENUM.AIRDEATH ||
+      this.state === ENTITY_STATE_ENUM.ATTACK
+    ) {
       return
     }
-    if (this.willAttack(inputDirection)) {
+    const enemieId = this.willAttack(inputDirection)
+    if (enemieId) {
+      EventManager.Instance.emit(EVENT_ENUM.ATTACK_ENEMY, enemieId)
       return
     }
     if (this.willBlock(inputDirection)) {
@@ -229,15 +227,15 @@ export class PlayerManager extends EntityManager {
     const playerNextY = this.y + playerOffset.y // 人物移动的下一个y轴
     const weaponNextX = playerNextX + weaponOffset.x //人物武器的下一个x轴
     const weaponNextY = playerNextY + weaponOffset.y // 人物武器的下一个y轴
-    const enemies = DataManager.Instance.enemies
+    const enemies = DataManager.Instance.enemies.filter(item => item.state !== ENTITY_STATE_ENUM.DEATH)
     for (let index = 0; index < enemies.length; index++) {
-      const { x: enemieX, y: enemieY } = enemies[index]
+      const { x: enemieX, y: enemieY, id: enemieId } = enemies[index]
       if (enemieX === weaponNextX && weaponNextY === enemieY) {
         this.state = ENTITY_STATE_ENUM.ATTACK
-        return true
+        return enemieId
       }
     }
-    return false
+    return ''
   }
 
   // 检查移动碰撞

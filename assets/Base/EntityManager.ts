@@ -22,6 +22,7 @@ export class EntityManager extends Component {
    */
   x: number = 0 // 当前x位置
   y: number = 0 // 当前y位置
+  id: string = '' // 角色id
   fsm: PlayerStateMachine // 状态机
   private _direction: DIRECTION_ENUM // 当前角色方向
   private _state: ENTITY_STATE_ENUM // 当前角色状态
@@ -60,5 +61,6 @@ export class EntityManager extends Component {
     this.direction = params.direction
     this.state = params.state
     this.type = params.type
+    this.id = params.id
   }
 }

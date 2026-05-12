@@ -1,5 +1,5 @@
 import { _decorator, Animation } from 'cc'
-import { FSM_PARAMS_TYPE_ENUM, PARAMS_NAME_ENUM } from '../../Enums'
+import { ENTITY_STATE_ENUM, FSM_PARAMS_TYPE_ENUM, PARAMS_NAME_ENUM } from '../../Enums'
 import { StateMachine } from '../../Base/StateMachine'
 import IdleSubStateMachine from './IdleSubStateMachine'
 import TurnLeftSubStateMachine from './TurnLeftSubStateMachine'
@@ -12,6 +12,7 @@ import BlockTurnRightSubStateMachine from './BlockTurnRightSubStateMachine'
 import BlocTurnLeftSubStateMachine from './BlocTurnLeftSubStateMachine'
 import DeathSubStateMachine from './DeathSubStateMachine'
 import AttackSubStateMachine from './AttackSubStateMachine'
+import { EntityManager } from '../../Base/EntityManager'
 const { ccclass, property } = _decorator
 
 type ParamsValueTYPE = Boolean | number
@@ -98,7 +99,7 @@ export class PlayerStateMachine extends StateMachine {
       const name = this.animationComponent.defaultClip.name
       const whitelList = ['idle', 'death']
       if (!whitelList.some(item => name.includes(item))) {
-        this.setParams(PARAMS_NAME_ENUM.IDLE, true)
+        this.node.getComponent(EntityManager).state = ENTITY_STATE_ENUM.IDLE
       }
     })
     // 获取当前动画组件的名称

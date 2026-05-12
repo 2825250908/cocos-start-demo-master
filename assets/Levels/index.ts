@@ -8,6 +8,7 @@ export interface IEntity {
   type: ENTITY_TYPE_ENUM
   direction: DIRECTION_ENUM
   state: ENTITY_STATE_ENUM
+  id: string
 }
 
 export interface ITile {

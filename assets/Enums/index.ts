@@ -19,6 +19,7 @@ export enum EVENT_ENUM {
   PLAYER_MOVE_END = 'PLAYER_MOVE_END', // 玩家移动结束
   PLAYER_BORN = 'PLAYER_BORN', // 玩家出生
   ATTACK_PLAYER = 'ATTACK_PLAYER', // 玩家被攻击
+  ATTACK_ENEMY = 'ATTACK_ENEMY', // 玩家攻击怪物
 }
 
 export enum CONTROLLER_ENUM {
@@ -48,7 +49,7 @@ export enum PARAMS_NAME_ENUM {
   BLOCKTURNLEFT = 'BLOCKTURNLEFT', // 左转撞墙动画
   BLCOKTURNRIGHT = 'BLCOKTURNRIGHT', //右转撞墙动画
   ATTACK = 'ATTACK', // 攻击状态
-  DEATH = 'DEATH', // 被怪物攻击死亡状态
+  DEATH = 'DEATH', // 被攻击死亡状态
   AIRDEATH = 'AIRDEATH', // 陷阱死亡状态
 }
 

@@ -14,7 +14,7 @@ export class ResoureceManager extends Singleton {
           return
         }
         const sortedAssets = assets.sort((a, b) => {
-          return a.name.localeCompare(b.name)
+          return a.name.localeCompare(b.name, undefined, { numeric: true })
         })
         resolve(sortedAssets)
       })
