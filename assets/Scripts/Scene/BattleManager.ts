@@ -8,6 +8,7 @@ import { DataManager } from '../../Runtime/DataManager'
 import { EventManager } from '../../Runtime/EventManager'
 import { TILE_HEIGHT, TILE_WIDTH } from '../Tile/TileManager'
 import { WoodenSkeletonManager } from '../WoodenSkeleton/WoodenSkeletonManager'
+import { DoorManager } from '../Door/DoorManager'
 const { ccclass, property } = _decorator
 
 @ccclass('BattleManager')
@@ -38,6 +39,8 @@ export class BattleManager extends Component {
       await this.generateEnemies()
       // 生成角色
       await this.generatePlayer()
+      // 生成关卡门
+      this.generateDoor()
     }
   }
   // 下一关
@@ -85,6 +88,14 @@ export class BattleManager extends Component {
     await woodenSkeletonManager.init()
     DataManager.Instance.enemies.push(woodenSkeletonManager)
   }
+  // 生成关卡门
+  generateDoor() {
+    const tileMap = createUINode('Door')
+    tileMap.setParent(this.stage)
+    const doorManager = tileMap.addComponent(DoorManager)
+    doorManager.init()
+  }
+
   // 生成瓦片地图
   generateTileMap() {
     // 3.在创建一个"tileMap" 地图容器的空节点

@@ -28,9 +28,9 @@ export class WoodenSkeletonManager extends EntityManager {
     // 初始化状态机
     await this.fsm.init()
     super.init({
-      x: 2,
+      x: 7,
       y: 4,
-      type: ENTITY_TYPE_ENUM.PALYER,
+      type: ENTITY_TYPE_ENUM.SKELETON_WOODEN,
       direction: DIRECTION_ENUM.TOP,
       state: ENTITY_STATE_ENUM.IDLE,
       id: this.node.uuid,

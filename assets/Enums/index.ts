@@ -20,6 +20,7 @@ export enum EVENT_ENUM {
   PLAYER_BORN = 'PLAYER_BORN', // 玩家出生
   ATTACK_PLAYER = 'ATTACK_PLAYER', // 玩家被攻击
   ATTACK_ENEMY = 'ATTACK_ENEMY', // 玩家攻击怪物
+  DOOR_OPEN = 'DOOR_OPEN', // 门打开
 }
 
 export enum CONTROLLER_ENUM {
@@ -85,4 +86,6 @@ export enum DIRECTION_ORDER_ENUM {
 
 export enum ENTITY_TYPE_ENUM {
   PALYER = 'PLAYER',
+  SKELETON_WOODEN = 'SKELETON_WOODEN',
+  DOOR = 'DOOR',
 }
