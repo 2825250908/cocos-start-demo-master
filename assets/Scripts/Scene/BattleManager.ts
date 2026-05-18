@@ -1,7 +1,7 @@
 import { _decorator, Component, Node } from 'cc'
 import { TileMapManager } from '../Tile/TileMapManager'
 import { PlayerManager } from '../player/PlayerManager'
-import { EVENT_ENUM } from '../../Enums'
+import { DIRECTION_ENUM, ENTITY_STATE_ENUM, ENTITY_TYPE_ENUM, EVENT_ENUM } from '../../Enums'
 import { createUINode } from '../Utils/index'
 import Levels, { Ilevel } from '../../Levels'
 import { DataManager } from '../../Runtime/DataManager'
@@ -9,6 +9,7 @@ import { EventManager } from '../../Runtime/EventManager'
 import { TILE_HEIGHT, TILE_WIDTH } from '../Tile/TileManager'
 import { WoodenSkeletonManager } from '../WoodenSkeleton/WoodenSkeletonManager'
 import { DoorManager } from '../Door/DoorManager'
+import { IronSkeletonManager } from '../IronSkeleton/IronSkeletonManager'
 const { ccclass, property } = _decorator
 
 @ccclass('BattleManager')
@@ -82,11 +83,31 @@ export class BattleManager extends Component {
   }
   // 生成怪物角色
   async generateEnemies() {
+    const ironSkeleton = createUINode('ironSkeleton')
+    ironSkeleton.setParent(this.stage)
+    const ironSkeletonManager = ironSkeleton.addComponent(IronSkeletonManager)
+    await ironSkeletonManager.init({
+      x: 7,
+      y: 2,
+      type: ENTITY_TYPE_ENUM.SKELETON_WOODEN,
+      direction: DIRECTION_ENUM.TOP,
+      state: ENTITY_STATE_ENUM.IDLE,
+      id: ironSkeleton.uuid,
+    })
+
     const woodenskeleton = createUINode('woodenskeleton')
     woodenskeleton.setParent(this.stage)
     const woodenSkeletonManager = woodenskeleton.addComponent(WoodenSkeletonManager)
-    await woodenSkeletonManager.init()
-    DataManager.Instance.enemies.push(woodenSkeletonManager)
+    await woodenSkeletonManager.init({
+      x: 7,
+      y: 4,
+      type: ENTITY_TYPE_ENUM.SKELETON_WOODEN,
+      direction: DIRECTION_ENUM.TOP,
+      state: ENTITY_STATE_ENUM.IDLE,
+      id: woodenskeleton.uuid,
+    })
+
+    DataManager.Instance.enemies.push(woodenSkeletonManager, ironSkeletonManager)
   }
   // 生成关卡门
   generateDoor() {
